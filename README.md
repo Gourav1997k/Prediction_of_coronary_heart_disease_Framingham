@@ -45,3 +45,17 @@ The model successfully identifies the majority of negative cases (No CHD), provi
 
 ---
 *Dataset provided by the Framingham Heart Study.*
+
+
+## 📂 Project Structure
+
+```text
+├── docs/                        # Documentation and Reports
+│   ├── Prediction_of_CHD.pdf    # Final Analysis Report
+│   └── latex_source/            # Source code for the report (optional)
+├── data/
+│   └── framingham.csv           # Dataset used for training
+├── project_code.R    # Main analysis and Logistic Regression code 
+└── README.md                    # Project overview (this file)
+
+
