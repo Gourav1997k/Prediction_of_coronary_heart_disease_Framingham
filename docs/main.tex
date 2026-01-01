@@ -1,0 +1,385 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+
+
+\title{
+\textbf{Prediction of Coronary Heart Disease using Logistic Regression}}
+\author{Inder Kaur\\
+Gourab Karmakar\\
+Akashdip Sen\\
+Department of Statistics, University of Kalyani\\
+\\
+
+
+Under the guidance of\\
+Soumyadeep Das,\\
+Assistant Professor, Department of Statistics\\
+Bidhannagar College}
+\date{July 2020}
+
+\begin{document}
+
+\maketitle
+\clearpage
+\begin{abstract}
+In the present 21st century, the way an individual leads his life is a major factor leading to numerous medical problem. One of the major health issues is Coronary Heart Disease (CHD) that might be nascent since the early age. Today machine learning is extensively applied in the medical industry. The objective of this project is to use technology to predict the possibility of CHD based on the lifestyle of a person. Consequently that would help the patients to take appropriate preventive measures and the doctors to determine their course of action. This will decrease the medical expense incurred by the patient and would help him in getting the right treatment at an early stage which would decrease the rate of mortality due to CHDs. Logistic regression has been applied to serve the purpose of this study to find the features that are statistically significantly associated with Coronary Heart Disease .\\ 
+
+
+\\
+\\
+
+
+\textit{\textbf{Keywords}- Logistic Regression, Machine learning, Coronary Heart Disease}
+
+
+
+\end{abstract}
+\clearpage
+\tableofcontents
+\clearpage
+
+\section{Introduction}
+In today’s fast growing world, Coronary Heart Diseases have become the leading cause of mortality. 17.9 million people die each year from Coronary vascular diseases, an estimated $ 31 \% $  of all death worldwide.
+Despite of wide variation in the factors leading to coronary heart diseases, tobacco use, high cholesterol level, rapid fluctuations in blood pressure, education, diabetes, low fruit and vegetable intake in the lower socioeconomic backgrounds have emerged out as a major causes of this disease. To counter this epidemic, the development of strategies like formulation and effective implementation of evidence based policy, early detection, reinforcement of health systems are required. 
+The main motivation for choosing this case study is to predict using the past history of the patient, the chances of him/her developing coronary heart disease in the long run. This will help the patient to take the required precautions from before-hand. Hence this shall help in decreasing the rate of mortality due to coronary diseases in the future. \\
+
+The entire study is divided into 3 folds with the 1st fold describes the data, 2nd fold dealing with the development of the theory and the 3rd fold deals with the analysis.
+\clearpage
+\section{Data Description}
+The dataset is a part of the ongoing cardiovascular study conducted on the residents of the town of Framingham,  Massachussetts. The Main aim is to classify two groups of people, i.e., those who are at risk of the coronary Heart Disease in ten years and those who are not, taking into account several factors that aid the disease, using the Logistic Regression Classifier.\\
+
+The Dataset provides the information on 4238 patients with 16 attributes. The dataset has been downloaded from Kaggle.
+
+
+\subsection{Variable Description}
+Each of the attributes presented in the Dataset is a potential Risk Factor.
+\begin{itemize}
+    \item \textbf{Sex}: (Male or Female) Whether the patient is a male or a female.(binary variable with 1 for male and 0 for female)
+    \item \textbf{Age}: Age of the patients rounded to the nearest integer.(continuous)
+    \item \textbf{currentSmoker}: Whether the patient under study is a current smoker or not.(binary variable with 1 for being a current smoker and 0 for being a non-smoker)
+    \item \textbf{cigsPerDay}: Number of cigarettes consumed per day on an average by the patient.(continuous)
+    \item \textbf{BPMeds}: Whether the patient was under blood pressure medication or not.
+    \item \textbf{prevalentStroke}: Whether the patient had stroke in the past or not.(binary variable with 1 indicating that the patient had stroke and 0 indicating that the patient didn’t had stroke)
+    \item \textbf{prevalentHyp}: Whether the patient was hypertensive or not.(binary variable with 1 indicating that the patient was hypertensive and 0 indicating that the patient wasn’t)
+    \item \textbf{Diabetes}: Whether the patient had diabetes or not.(binary variable with 1 indicating presence of diabetes and 0 indicating absence)
+    \item \textbf{totChol}: Total cholesterol level of the patient.(continuous variable)
+    \item \textbf{sysBP}: Systolic Blood pressure.(continuous variable)
+    \item \textbf{diaBP}: Diastolic Blood pressure.(continuous variable)
+    \item \textbf{BMI}: Body Mass Index of the patient.(continuous variable)
+    \item \textbf{heartRate}: Heart rate of the patient.(continuous variable)
+    \item \textbf{glucose}: Glucose level of the patient.(continuous variable)
+    \item \textbf{TenYearCHD(Target variable)}: Ten year risk of Coronary Heart Disease of the patient.(binary variable with 1 indicating that the patient is at risk of CHD and 0 indicating that the patient is not at risk)
+\end{itemize}
+\clearpage
+\subsection{Missing values}
+In real world, it is quite usual to encounter the problem of missing values in datasets. The current dataset on which the model is to be built also has some missing values corresponding to the different attributes described earlier which is provided in the following table:-
+\begin{center}
+    \begin{tabular}{|c|c|}
+    \hline
+    Variables & Missing value Counts\\
+    \hline\hline
+    male & 0\\
+    \hline
+    age & 0\\
+    \hline
+    education & 105\\
+    \hline
+    currentSmoker & 0\\
+    \hline
+    cigsPerDay & 29\\
+    \hline
+    BPmeds & 53\\
+    \hline
+    prevalentStroke & 0\\
+    \hline
+    prevalentHyp & 0\\
+    \hline
+    diabetes & 0\\
+    \hline
+    totChol & 50\\
+    \hline
+    sysBP & 0\\
+    \hline
+    diaBP & 0\\
+    \hline
+    BMI & 19\\
+    \hline
+    heartRate & 1\\
+    \hline
+    glucose & 388\\
+    \hline
+    TenYearCHD & 0\\
+    \hline
+    \end{tabular}
+\end{center}
+In total there are about 645 missing observations across all the attributes in the study and it is impossible to fill those missing values by means of forward filling, backward filling or filling the missing observation with the mean value of the corresponding attribute. So the model is built by dropping the patients with missing values to avoid any kind of fallacy that may affect the model development in further steps.
+\clearpage
+\subsection{A Glimpse into the data}
+
+Here is a glimpse of the first 10 rows of the data on which the analysis is to be carried-\\
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=16cm, height=6cm]{Heddata.JPG}
+    %\caption{Plot of a sigmoid function}
+    %\label{fig:scree plot}
+\end{figure}\\
+\clearpage
+\section{Logistic Regression}
+Classification problems mainly deal with the problem of identifying to which category or sub category a new observation belongs to, on the basis of the training set of instances belonging to the same population whose category is already known. Basically it is used to predict the class or category of a new observation based on the training set.
+
+Linear regression is the most extensively used statistical technique for predictive analysis. It is used to explain the relationship between dependent and independent variables using a straight line. 
+
+
+Logistic regression is a statistical technique used in research designs that call for analyzing the relationship of an outcome or dependent variable (categorical in nature) to one or more predictors or independent variables while the dependent variable is either
+\begin{itemize}
+    \item \textbf{Dichotomous (binomial)} :  having only two categories. for example, whether one uses drugs(illegal) (no or yes).
+    \item \textbf{Unordered polychotomous} : which is a nominal scale variable with three or more categories, for example, political party identification (Democrat, Republican, other, or none).
+    \item \textbf{Ordered Polychotomous} : which is an ordinal scale variable with three or more categories, for example, level of education completed (e.g., less than elementary school, elementary school, high school, an undergraduate degree, or a graduate degree). 
+\end{itemize}
+\subsection{Preference of Logistic Regression over Linear Regression}
+Logistic Regression is an instance of classification technique that can be used to predict a qualitative response. Predicting a qualitative response for an observation can be referred to as classifying that observation, since it involves classifying the observation to a category. On the other hand, the methods that are often used for classification first predict the probability of each of the categories of a qualitative variable, as the basis for making the classification. A simple linear regression model, with Y as the response variable and X as the covariate, is not capable of predicting the probability. If linear regression is used to model a binary response variable, the resulting model may restrict the predicted Y values within 0 and 1. Here’s where logistic regression comes into play where the probability score reflects the probability of the occurrence of the event.
+\subsection{Logistic Model}
+Consider the study where the outcome variable Y is dichotomous, i.e, it is coded as 1 indicating the presence of a characteristic and 0 indicating the absence of a characteristic and the quantities $X_1,X_2,\dots,X_p$ denotes the p-independent variables. In any regression problem, the key quantity is the mean value of the outcome variable given the value of the independent variable which is denoted as $E(Y|$\textbf{X=x}$)$  . This quantity is read as the “expected value of $Y$ for a given value of $X_1,X_2,\dots,X_p$”. In linear regression this conditional mean may be expressed as
+$$E(Y|\mathbf{X=x}) = \beta_{0}+\beta_{1}x_1+\beta_{2}x_2+\dots+\beta_{p}x_{p}$$, where \textbf{X$'$}=$(X_1,X_2,\dots,X_p)$\\
+
+This expression indicates that it is possible for $E(Y|x)$  to take any value between $-\infty$ and $+\infty$ . But with dichotomous data, the conditional mean must be greater than or equal to 0 and less than or equal to 1. When $E(Y|\mathbf{x})$ is plotted against the different values of \textbf{x$'$}=$(x_1,x_2,\dots,x_p)$ it is seen that the conditional mean approaches 0 and 1 gradually and the plot resembles the shape of an \textit{S-shaped curve} which resembles the cumulative distribution function of a Logistic distribution . Many distributions have been proposed for use in the analysis of a dichotomous outcome variable but the logistic distribution is preferred as it is quite flexible and lends itself to a clinically meaningful interpretation. In order to simplify the notation, the quantity $\pi(\mathbf{x})$  is used to represent the conditional mean of $Y$ given \textbf{x} when the logistic distribution is used. The specific form of the logistic distribution used for a dichotomous outcome variable and $p$ predictor variables is\\
+$$\pi(\mathbf{x})= \frac{e^{\beta_0+\beta'\mathbf{X}}}{1+e^{\beta_0+\beta'\mathbf{X}}}$$
+A transformation of  $\pi(\mathbf{x})$ that is central to the study of logistic regression is the logit transformation. This transformation is defined in terms of $\pi(\mathbf{x})$ as\\
+$$g(\mathbf{x})=ln\left [\frac{\pi(\mathbf{x})}{1-\pi(\mathbf{x})} \right ]= \beta_{0}+\beta'\mathbf{X}$$
+where $\mathbf{\beta}'=(\beta_1,\beta_2,\dots,\beta_p)$.\\
+
+In case of \emph{p} covariates  $X_{1},X_{2},……, X_$, the logit of the multiple regression model is given by\\
+$$g(\mathbf{x})= \beta_{0}+\beta'\mathbf{X}$$\\
+Where $g(\mathbf{x})$ is defined as above and we have
+$$\pi(\mathbf{x}) = P[Y=1|\mathbf{X=x}]$$\\
+Vectors \textbf{X} and $\mathbf{\beta}$ are defined as usual.
+\subsection{Estimation of parameters:}
+The parameters of the logistic regression model can be obtained by the method of Maximum Likelihood Estimation.\\
+
+Let $P[Y_i=1]=\pi_i$ and $P[Y_i=0]=1-\pi_i$, $i=1,2,\dots,n$\\
+
+The likelihood function is $$L(\beta|Y_1,Y_2,\dots,Y_n)=\prod_{1}^{n}\pi_i^{y_i}(1-\pi_i)^{1-y_i}$$\\
+where $\beta'=(\beta_1,\beta_2,\dots,\beta_p)$ and $\pi_i=\frac{\exp(\beta_0+\sum_{1}^{p}x_{ji}\beta_j)}{1+\exp(\beta_0+\sum_{1}^{p}x_{ji}\beta_j)}$.\\
+
+Taking Log on both sides and then differentiating the likelihood with respect to $\beta_j$, we have-\\
+$$\frac{\partial log L(\beta|Y_1,Y_2,\dots,Y_n) }{\partial\beta_j}=\mathbf{x_j'}(\mathbf{y}-\mathbf{\pi}),j=0,\dots,p$$\\
+where $\mathbf{x_j'}=(x_{j1},x_{j2},\dots,x_{jp})$ \& $\mathbf{\pi}=(\pi_1,\pi_2,\dots,\pi_n)$.\\
+
+Upon further Calculation we obtain,\\
+$$\frac{\partial}{\partial\mathbf{\beta}}log L(\beta|Y_1,Y_2,\dots,Y_n)=\mathbf{X'}(\mathbf{Y}-\mathbf{\pi})$$\\
+where vectors $\mathbf{X},\mathbf{\pi}$ are defined as usual and $\mathbf{Y'}=(Y_1,Y_2,\dots,Y_p)$.\\
+
+The above system of equations of the order cannot be solved analytically. But it can be solved by Newton-Raphson method. The convergence is reached when $\beta_i\simeq \beta_{i-1}$
+
+\section{Model Evaluation}
+\subsection{Akaike's Information Criteria}
+Suppose that there is a statistical model of some data. Let $p$ be the number of estimated parameters in the model. For a p-variate linear regression model with $\varepsilon  \sim N(0, \sigma^2I)$, the likelihood function is\\
+$$L(y, \beta,\sigma^2)=\frac{1}{(2\pi\sigma^2)^{n/2}}\exp\left [ {\frac{-(y-X\beta)'(y-X\beta)}{2\sigma^2}} \right ]$$\\
+whose log-likelihood is\\
+$$lnL(y, \beta,\sigma^2)=-\frac{n}{2}ln2\pi-\frac{n}{2}ln\sigma^2-\frac{1}{2}\frac{(y-X\beta)'(y-X\beta)}{\sigma^2}$$\\
+
+So, Akaike's Information Criteria is defined as\\
+$$AIC = 2p-2lnL(y,\widehat{\beta},\widetilde{\sigma^2})$$ where $\widehat{\beta}$ is the MLE of $\beta$ \& $\widetilde{\sigma^2}=\frac{n-p}{n}\widehat{\sigma^2}$ is the unbiased estimator of $\widehat{\sigma^2}$, $\widehat{\sigma^2}$ being the MLE of $\sigma^2$.\\
+
+Given a set of candidate models for the data, the preferred model is the one with the minimum AIC value. Thus, AIC rewards goodness of fit (as assessed by the likelihood function), but it also includes a penalty that is an increasing function of the number of estimated parameters. The penalty discourages overfitting, because increasing the number of parameters in the model almost always improves the goodness of the fit.
+
+\subsection{Receiver Operating Characteristic(ROC)}
+A Receiver Operating Character curve or the R.O.C curve is a graphical plot that illustrates the diagnostic ability of a binary classifier system as its discrimination threshold is varied. The ROC curve is created by plotting the True Positive Rate (TPR) against the False Positive Rate at various threshold settings. The True Positive Rate is also known as Sensitivity, Recall or Probability of detection in machine learning. The false positive rate is known as the probability of false alarm and can be calculated as (1 – specificity).\\
+It can also be thought of as the plot of the power as a function of the Type 1 error of the decision rule.\\
+\clearpage
+
+\subsection{Area under the ROC curve (AUC)}
+To compare different classifier, it can be useful to summarize the performance of each classifier into a single measure. One common approach is to calculate the area under the ROC curve which is abbreviated as AUC.  \\
+A classifier with higher AUC can occasionally score worse in a specific region than another classifier with lower AUC. But in practice, the AUC performs well as a general measure of predictive accuracy.\\
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{ROC AUC curve.JPG}
+    \caption{Example of an ROC AUC curve}
+    %\label{fig:scree plot}
+\end{figure}\\
+\section{Dealing With Multicollinearity-}
+\subsection{Variance Inflation Factor}
+Interpretation of the multiple regression equation depends implicitly on the assumption that the covariates are not strongly inter-related. I is usual to interpret a regression coefficient as measuring the change in the response variable when the corresponding covariate is increased by one unit and all the other covariates are held constant. This interpretation may not be valid if there are strong linear relationships among the covariates. This problem is addressed as multi-collinearity. A thorough investigation of multi-collinearity will involve examining the value of  $R^2$ that results from regressing each of the covariates against all the others. The relationship between the predictor variables can be evaluated by examining a quantity called the variance inflation factor (VIF). Let $R_{j}^2$ be the square of the multiple correlation coefficient that results when the covariate $X_{j}$ is regressed against all the other covariates. Then the variance inflation for $X_{j}$ is\\
+$$VIF_{j} = \frac{1}{1-R_{j}^2}, j=1,2,\dots,p$$\\
+The Variance Inflation (VIF) is the quotient of the variance in a model with multiple terms by the variance of a model with one term alone. It quantifies the severity of multi-collinearity, i.e., the correlation among the covariates,  in an ordinary least square regression analysis . It provides an index that measures how much the variance of an estimated regression coefficient is increased because of collinearity.\\
+If the VIF of the ith estimated parameter of the multiple linear regression equation is greater than 5 , then there is some moderate collinearity but if the VIF of the ith estimated parameter is greater than 10, then there is some severe multi-collinearity in the model.
+\clearpage
+\section{Confusion Matrix}
+In the field of machine learning and specifically the problem of statistical classification, a confusion matrix or the error matrix is specific table layout that allows visualizations of the performance of the algorithm. Each row of the matrix represents the instances in an actual class (or vice versa). The name stems from the fact that it makes easy to see if the system is confusing two classes. It is special kind of contingency table with two dimensions (“actual and “predicted”), and identical sets of classes in both dimensions. It is extremely useful for measuring the Recall, precision, specificity, accuracy and most importantly AUC-ROC curve.\\
+The form of the confusion matrix is given: 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Confusion.png}
+    \caption{Example of a Confusion Matrix}
+    %\label{fig:scree plot}
+\end{figure}\\
+
+The quantities are described as follows:
+\begin{enumerate}
+    \item \textbf{True Positive (TP)} -Observation is positive and is predicted to be positive.
+    \item \textbf{False Negative (FN)} - Observation is positive but is predicted to be negative.
+    \item \textbf{True Negative (TN)} - Observation is negative and is predicted to be negative.
+    \item \textbf{False Positive (FP)} - Observation is negative but is predicted to be positive.
+\end{enumerate}\\
+
+Classification rate or accuracy is defined by – 
+$$Accuracy = \frac{TP+TN}{TP+FP+TN+FN}$$
+
+\clearpage
+\section{Analysis}
+\subsection{Exploratory Data Analysis}
+\subsubsection{Bar Plot for the number of people having CHD}
+First we examine the number of people who have Coronary Heart Disease with the help of a basic bar plot-
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Countplotfor my project.jpg}
+    %\caption{Example of a Confusion Matrix}
+    %\label{fig:scree plot}
+\end{figure}\\
+ It is clear that majority of the people in the dataset don't have any Heart Disease.
+ \clearpage
+\subsubsection{Univariate analysis}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=17cm, height=14cm]{hsitogram3.jpeg}
+    %\caption{Histogram of the entire dataset}
+    %\label{fig:scree plot}
+\end{figure}\\
+Some of the points to be noted from the histogram-
+\begin{itemize}
+    \item The female subjects are more than the number of male subjects in the study.
+    \item Most of the subjects dont consume cigarettes at all.
+    \item Most of the subjects dont have any history hypertension, diabetes, strokes and BP medication.
+\end{itemize}
+\clearpage
+\subsubsection{Bivariate Analysis}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=10cm, height=10cm]{Rplot03.png}
+    %\caption{Histogram of the entire dataset}
+    %\label{fig:scree plot}
+\end{figure}\\
+From the correlation matrix of the numerical variables pairs with correlation more than 0.6 are checked . It is clear that the variables-
+\begin{itemize}
+    \item diaBP and sysBP are correlated
+\end{itemize}\\
+So the variables sysBP is dropped.\\
+\clearpage
+The association matrix of the categorical variables by using the cramer's V is also represented-\\
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=12cm, height=12cm]{Rplot04.png}
+    %\caption{Histogram of the entire dataset}
+    %\label{fig:scree plot}
+\end{figure}\\
+From the association matrix of the categorical variables, it is evident that there is no significant association among the categorical variables. So, all the categorical variables are retained.
+
+\clearpage
+
+\subsection{Model Fitting}
+The dataset is then randomly divided into the training set and the test set with the split ratio being 75:25 because the model can be trained with the training set so that the model sees and learns from the data. The test set is used to provide an unbiased evaluation of a final model fit on the training dataset.\\
+
+
+ \subsubsection{Fitting the Logistic Regression model-}
+ At first, the model is fitted on the features that were left after removal of the variables that were causing the problem of multi-collinearity.\\
+ \begin{figure}[h]
+    \centering
+    \includegraphics[width=15cm, height=12cm]{newsummary.PNG}
+    \caption{output after fitting the retained variables}
+    %\label{fig:scree plot}
+\end{figure}\\
+ From the output provided in Figure 3, it is already clear that most of the explanatory variables are not significant and may not be beneficial for the purpose of the study.\\
+ 
+ 
+ The significant variables are retained using the \textit{Backward Selection} technique and the output of the final iteration of the procedure giving the reduced model is provided in Figure 4.
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=15cm, height=12cm]{nsummary22.PNG}
+    \caption{output for the reduced model}
+    %\label{fig:scree plot}
+\end{figure}\\
+
+Clearly, the variables retained are all significant at $10\%$ level of significance to the purpose of the study.
+\clearpage
+\subsubsection{Checking for Multicollinearity-}
+It is important to check whether the variables retained have correlations among them via the Variance Inflation Factors-
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=1.2\textwidth]{vifnew.PNG}
+    %\caption{Histogram of the entire dataset}
+    %\label{fig:scree plot}
+\end{figure}\\
+It is clear that there is no multicollinearity in the reduced model.
+\subsubsection{Checking the Accuracy of the model-}
+After the model is fit, it is important to check whether there is an instance of overfitting or underfitting of the data. \\
+
+The confusion matrices for both the training set and the test set are provided-\\
+\textbf{Accuracy of the model on the training set-}\\
+ \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{trainnew.PNG}
+    %\caption{Histogram of the entire dataset}
+    %\label{fig:scree plot}
+\end{figure}\\
+It can be seen that there is 85.41\%
+of accuracy rate of the model in the training set along with 400 misclassifications.\\
+\clearpage
+\textbf{Accuracy of the model on the test set-}\\
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{testnew.PNG}
+    %\caption{Histogram of the entire dataset}
+    %\label{fig:scree plot}
+\end{figure}\\
+It can be seen that there is almost same accuracy on the test set and it can be said that there is no instance of over-fitting of the data, with the model making about 136 mis-classifications in the test set.\\
+
+\textbf{Model Adequacy check-}\\
+
+It is important to check the performance of the model based on factors like sensitivity, specificity.
+The output is produced as follows-
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{testnew21.PNG}
+    %\caption{Histogram of the entire dataset}
+    %\label{fig:scree plot}
+\end{figure}\\
+It can be observed from the above figures that logistic regression model is more specific rather than sensitive. 
+\clearpage
+\subsubsection{Plotting the ROC AUC curve-}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.2\textwidth]{ROCAUCnew.PNG}
+    %\caption{Histogram of the entire dataset}
+    %\label{fig:scree plot}
+\end{figure}\\
+The ROC-AUC curve quantifies the model accuracy, higher the area greater is the model classification accuracy.
+An AUC value of $73.85\%$ means acceptable discrimination which means the model can perform well with more sample size.
+\clearpage
+\section{Conclusion}
+It is very important to find the factors that are significant for Coronary Heart Disease. The variables retained in the study are all significant and can be counted upon as the factors which are associated to the risk of Coronary Heart Disease. Also it is found that men are more susceptible to Coronary Heart Disease(as evident from the log of odds in the summary table). The factors like smoking, strokes and increasing age all have a significant role in causing Coronary Heart Disease. Except age, the other factors, if controlled, can reduce the possibility of Coronary Heart Disease in future. The accuracy of the model is $85.12\%$ which can be increased with more data and by including new factors related to the hygiene as well as the lifestyle of a person.
+\clearpage
+\begin{center}
+    \textbf{Acknowledgement}
+\end{center}
+Before we get into the thick of things, we would like to thank our project guide Soumyadeep Das, Assistant Lecturer, Bidhannagar College who guided us at every step with his wisdom, knowledge as well as his constant support and energy. Without his insight and proper guidance the project wouldn't have been completed.\\
+
+We would also like to thank Dr. Sisir Kumar Samanta, \emph{Head}, \emph{Department of Statistics},  \emph{University of Kalyani} for allowing us to work on this topic "\textbf{Prediction of Coronary Heart Disease using Logistic Regression}" due to which we got to know a lot about the factors that are responsible for Heart diseases as well as build our concept on Logistic Regression and Machine learning. It is to these people that we owe our deepest gratitude.\\
+\clearpage
+\begin{center}
+    \textbf{References}
+\end{center}\\
+
+$[1]$ \textit{Agresti, A. An Introduction to Categorical Data analysis, 2007, John Wiley $\&$ Sons, Inc.}\\
+
+$[2]$ \textit{Dataset is obtained from}-\\
+\texttt{https://www.kaggle.com/amanajmera1/framingham-heart-study-dataset/data}\\
+
+$[3]$ \textit{Fox, J. Applied Regression analysis $\&$ Generalized Linear models, 2016, SAGE publications}\\
+
+$[4]$ \textit{Hosmer, D.W, Lemeshow, S. Applied logistic Regression, 2000, John Wiley $\&$ Sons, Inc.}\\
+
+$[5]$ \textit{James, G, Witten, D, Hastie, T, Tibshirani, R. An Introduction toStatistical Learning with applications in R, 2017, Springer}\\
+
+\end{document}
